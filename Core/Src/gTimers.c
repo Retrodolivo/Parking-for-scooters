@@ -1,6 +1,7 @@
 #include "gTimers.h"
 
 static uint8_t flagInterrupt = 0;
+volatile gTimers_t gTimer[MAXTIMER];
 
 /************************************************************************/
 /* Инициализация таймероа                                               */

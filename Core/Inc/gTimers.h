@@ -40,7 +40,7 @@ typedef struct
 	volatile flagState stateFlag;				//Флаг состояния 1 счет закончен, 0 продолжается
 }gTimers_t;
 
-volatile gTimers_t gTimer[MAXTIMER];			//Массив таймеров
+extern volatile gTimers_t gTimer[MAXTIMER];			//Массив таймеров
 
 void initGTimer(void);										//Инициализация таймероа
 void startGTimer(uint8_t gTimerID, uint32_t initTimer);		//Запуск таймера

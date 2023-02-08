@@ -65,6 +65,16 @@ uint32_t getCardID(void)
 {
 	return cardID;
 }
+/*********************************************************************
+ * Первые 4 uid                                                 *
+ *********************************************************************/
+static void uid2cardID(void)
+{
+	cardID = (uint32_t)uid[0] << 24 |
+			 (uint32_t)uid[1] << 16 |
+			 (uint32_t)uid[2] << 8  |
+			 (uint32_t)uid[3];
+}
 
 /*********************************************************************
  * Получение серийного номера карты "Тройка"                         *
@@ -232,13 +242,13 @@ void taskNfc(void)
 			//if(getGTimer(TIMER_NFC).stateFlag == fTrue)
 			//{
 				//SAMConfig();
-				success = readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 20);
+				success = readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 200);
 				/*if(!success)
 					success = readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 10);
 				if(!success)
 					success = readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 10);*/
 				/*if(!success)
-				success = readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 500);*/
+					success = readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 500);*/
 				if (success)
 				{
 					//display_nfc(1);
@@ -338,7 +348,12 @@ void taskNfc(void)
 									//HAL_Delay(2000);
 								}
 							}
+							else
+							{
+								uid2cardID();
+							}
 						}
+
 						//ClearDisplay();
 						//display_header_exept(0);
 						//cell_selected=0;
@@ -480,6 +495,7 @@ void taskNfc(void)
 						}
 						else
 						{
+							uid2cardID();
 							//HAL_Delay(2000);
 						}
 						//ClearDisplay();

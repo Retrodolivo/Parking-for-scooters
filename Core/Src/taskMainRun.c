@@ -12,6 +12,8 @@ static uint32_t  keyboardKode = 0xFFFFFFFF;			// Хранит код введенный с клавиату
 static uint8_t countDigEntered = 0;					// Счетчик кол-ва введенных цифр с клавиатуры
 static uint8_t chChoiseValue = 0;					// Выбор канала который нужно открыть или закрыть
 
+
+
 static void initVarMainRun(void);	// Инициализация переменных
 
 /*********************************************************************
@@ -420,6 +422,7 @@ void taskMainRun(void)
 				countDigEntered = 0;
 				countStep = 3;
 			}
+			break;
 		}
 		case 13: // Сервисное меню
 		{

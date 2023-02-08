@@ -95,6 +95,25 @@ masterData_t getMasterData(void)
 {
 	return masterData;
 }
+///*********************************************************************
+// * 4 uid                                                  *
+// *********************************************************************/
+//static uint8_t set_masterkey(uint8_t *uID, uint8_t lenght)
+//{
+//	if (lenght >= 4)
+//	{
+//		for (uint8_t i = 0; i < 4; i++)
+//			masterData.masterKey = (uint32_t)uID[0] << 24 |
+//			 	 	 	 	 	   (uint32_t)uID[1] << 16 |
+//								   (uint32_t)uID[2] << 8  |
+//								   (uint32_t)uID[3];
+//		flashErasePage(ADDR_PAGE_MASTER_DATA);
+//		flashWriteDataWord(ADDR_PAGE_MASTER_DATA, (uint32_t *)&masterData, sizeof(masterData) / sizeof(uint32_t));
+//		return 1;
+//	}
+//	else
+//		return -1;
+//}
 
 /*********************************************************************
  * Основная задача                                                   *
@@ -618,6 +637,19 @@ void taskMainRun(void)
  *********************************************************************/
 static void initVarMainRun(void)
 {
+	flashErasePage(ADDR_PAGE_MASTER_DATA);
+	uint8_t masterkey_uid[7] = {0x33, 0xAD, 0xF1, 0x02};
+	for (uint8_t i = 0; i < 4; i++)
+	{
+		masterData.masterKey = (uint32_t)masterkey_uid[0] << 24 |
+		 	 	 	 	 	   (uint32_t)masterkey_uid[1] << 16 |
+							   (uint32_t)masterkey_uid[2] << 8  |
+							   (uint32_t)masterkey_uid[3];
+	}
+	masterData.generalPassword = 0x00000000;
+	masterData.timeCharge = 5;
+	flashWriteDataWord(ADDR_PAGE_MASTER_DATA, (uint32_t *)&masterData, sizeof(masterData) / sizeof(uint32_t));
+
 	for(uint8_t i = 0; i < maxCh; i++)
 	{
 		if(!flashEepromReadData(i, (uint32_t *)&chData[i]))

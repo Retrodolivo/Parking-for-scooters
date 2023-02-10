@@ -50,6 +50,7 @@ void MX_GPIO_Init(void)
   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD);
+  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOE);
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOC, LED_RED_1_Pin|LED_GREEN_1_Pin|LED_RED_2_Pin|LED_GREEN_2_Pin
@@ -68,6 +69,12 @@ void MX_GPIO_Init(void)
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOD, CHARGE_EN_2_Pin|CHARGE_EN_3_Pin|CHARGE_EN_4_Pin|CHARGE_EN_5_Pin);
+
+  /**/
+  LL_GPIO_SetOutputPin(W5500_CS_GPIO_Port, W5500_CS_Pin);
+
+  /**/
+  LL_GPIO_SetOutputPin(W5500_RST_GPIO_Port, W5500_RST_Pin);
 
   /**/
   GPIO_InitStruct.Pin = LED_RED_1_Pin|LED_GREEN_1_Pin|LED_RED_2_Pin|LED_GREEN_2_Pin
@@ -142,10 +149,32 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /**/
+  GPIO_InitStruct.Pin = W5500_CS_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(W5500_CS_GPIO_Port, &GPIO_InitStruct);
+
+  /**/
   GPIO_InitStruct.Pin = SW_3_5CH_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
   LL_GPIO_Init(SW_3_5CH_GPIO_Port, &GPIO_InitStruct);
+
+  /**/
+  GPIO_InitStruct.Pin = W5500_INT_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(W5500_INT_GPIO_Port, &GPIO_InitStruct);
+
+  /**/
+  GPIO_InitStruct.Pin = W5500_RST_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  LL_GPIO_Init(W5500_RST_GPIO_Port, &GPIO_InitStruct);
 
 }
 

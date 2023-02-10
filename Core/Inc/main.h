@@ -162,8 +162,16 @@ void Error_Handler(void);
 #define LOCK_3_GPIO_Port GPIOA
 #define LOCK_4_Pin LL_GPIO_PIN_12
 #define LOCK_4_GPIO_Port GPIOA
+#define W5500_CS_Pin LL_GPIO_PIN_6
+#define W5500_CS_GPIO_Port GPIOF
 #define LOCK_5_Pin LL_GPIO_PIN_15
 #define LOCK_5_GPIO_Port GPIOA
+#define W5500_SCK_Pin LL_GPIO_PIN_10
+#define W5500_SCK_GPIO_Port GPIOC
+#define W5500_MISO_Pin LL_GPIO_PIN_11
+#define W5500_MISO_GPIO_Port GPIOC
+#define W5500_MOSI_Pin LL_GPIO_PIN_12
+#define W5500_MOSI_GPIO_Port GPIOC
 #define CHARGE_EN_4_Pin LL_GPIO_PIN_0
 #define CHARGE_EN_4_GPIO_Port GPIOD
 #define CLOSE_COVER_IN_4_Pin LL_GPIO_PIN_1
@@ -192,6 +200,10 @@ void Error_Handler(void);
 #define LCD_A0_GPIO_Port GPIOB
 #define LCD_R_W_Pin LL_GPIO_PIN_9
 #define LCD_R_W_GPIO_Port GPIOB
+#define W5500_INT_Pin LL_GPIO_PIN_0
+#define W5500_INT_GPIO_Port GPIOE
+#define W5500_RST_Pin LL_GPIO_PIN_1
+#define W5500_RST_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

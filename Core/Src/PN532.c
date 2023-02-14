@@ -1,6 +1,6 @@
 #include "PN532.h"
 
-extern I2C_HandleTypeDef hi2c2;
+extern I2C_HandleTypeDef hi2c1;
 
 uint8_t pn532ack[] = {0x00, 0x00, 0xFF, 0x00, 0xFF, 0x00};
 uint8_t pn532response_firmwarevers[] = {0x00, 0x00, 0xFF, 0x06, 0xFA, 0xD5};
@@ -1091,7 +1091,7 @@ _Bool readack() {
 /**************************************************************************/
 _Bool isready() {
     // I2C check if status is ready by IRQ line being pulled low.	  
-	  test = LL_GPIO_IsInputPinSet(IRQ_GPIO_Port, IRQ_Pin);//HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_4);
+	  test = LL_GPIO_IsInputPinSet(PN532_IRQ_GPIO_Port, PN532_IRQ_Pin);//HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_4);
 	  if(test == 0 )
 		{
 		  return 1;
@@ -1300,13 +1300,13 @@ void beginTransmission(uint16_t address)
 uint8_t endTransmission(uint8_t sendStop)
 {
   // transmit buffer (blocking) (uint16_t)I2C_ADDRESS, (uint8_t*)
-	while(HAL_I2C_Master_Transmit(&hi2c2, (uint16_t)txAddress , (uint8_t*)txBuffer, txBufferLength, 1000) != HAL_OK){		
+	while(HAL_I2C_Master_Transmit(&hi2c1, (uint16_t)txAddress , (uint8_t*)txBuffer, txBufferLength, 1000) != HAL_OK){
 	/* Error_Handler() function is called when Timeout error occurs.
        When Acknowledge failure occurs (Slave don't acknowledge it's address)
        Master restarts communication */
-    if (HAL_I2C_GetError(&hi2c2) != HAL_I2C_ERROR_AF)
+    if (HAL_I2C_GetError(&hi2c1) != HAL_I2C_ERROR_AF)
     {
-			i2c_error = HAL_I2C_GetError(&hi2c2);
+			i2c_error = HAL_I2C_GetError(&hi2c1);
       Error_Handler();
     }
 	}
@@ -1373,7 +1373,7 @@ uint8_t requestFrom(uint16_t address, uint8_t quantity, uint32_t iaddress, uint8
     quantity = BUFFER_LENGTH;
   }
   // perform blocking read into buffer
-	uint8_t read = HAL_I2C_Master_Receive(&hi2c2, address, rxBuffer, quantity, 100);
+	uint8_t read = HAL_I2C_Master_Receive(&hi2c1, address, rxBuffer, quantity, 100);
   //uint8_t read = twi_readFrom(address, rxBuffer, quantity, sendStop);
   // set rx buffer iterator vars
   rxBufferIndex = 0;
@@ -1397,7 +1397,7 @@ void _Error_Handler(char *file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  i2c_error = HAL_I2C_GetError(&hi2c2);
+  i2c_error = HAL_I2C_GetError(&hi2c1);
 	transmitting = 0;
   /* USER CODE END Error_Handler_Debug */
 }
